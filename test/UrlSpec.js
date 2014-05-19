@@ -270,6 +270,15 @@ describe("Http.Url", function () {
 
             Url.encodeQuery(data).should.equal("x[]=foo&x[]=bar");
         });
+
+        it("should set null as empty value", function () {
+            var data = {
+                x: null,
+                y: null
+            };
+
+            Url.encodeQuery(data).should.equal("x&y");
+        });
     });
 
     describe(".parse()", function () {

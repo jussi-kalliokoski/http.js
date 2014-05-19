@@ -163,6 +163,10 @@ Http.Url = function () {
                 });
             }
 
+            if ( value === null ) {
+                return key;
+            }
+
             return encodeParameter(key, value);
         })).join("&");
     };
