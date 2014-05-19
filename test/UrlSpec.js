@@ -167,7 +167,7 @@ describe("Http.Url", function () {
         });
     });
 
-    describe("addUrlParam()", function () {
+    describe("#addUrlParam()", function () {
         it("should add the URL param to the search query", function () {
             var url = new Url("http://example.com");
             url.addUrlParam("x", "http://&@A asd");
@@ -187,7 +187,7 @@ describe("Http.Url", function () {
         });
     });
 
-    describe("addUrlParams()", function () {
+    describe("#addUrlParams()", function () {
         it("should add the URL params to the search query", function () {
             var url = new Url("http://example.com");
             url.addUrlParams({
@@ -214,7 +214,34 @@ describe("Http.Url", function () {
         });
     });
 
-    describe("getUrlParams()", function () {
+    describe("#getUrlParam()", function () {
+        it("should return the requested of URL parameter in the search query", function () {
+            var url = new Url("http://example.com?foo=x&bar=y");
+            url.getUrlParam("bar").should.equal("y");
+        });
+
+        it("should support arrays", function () {
+            var url = new Url("http://example.com?foo=x&foo=y");
+            url.getUrlParam("foo").should.deep.equal(["x", "y"]);
+        });
+
+        it("should ignore square brackets with arrays", function () {
+            var url = new Url("http://example.com?foo[]=x&foo[]=y");
+            url.getUrlParam("foo").should.deep.equal(["x", "y"]);
+        });
+
+        it("should make a single item with square brackets an array", function () {
+            var url = new Url("http://example.com?foo[]=x");
+            url.getUrlParam("foo").should.deep.equal(["x"]);
+        });
+
+        it("should use null for unassigned values", function () {
+            var url = new Url("http://example.com?foo&bar");
+            expect(url.getUrlParam("foo")).to.equal(null);
+        });
+    });
+
+    describe("#getUrlParams()", function () {
         it("should return the list of URL parameters in the search query", function () {
             var url = new Url("http://example.com?foo=x&bar=y");
             url.getUrlParams().should.deep.equal({

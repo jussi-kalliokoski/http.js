@@ -107,6 +107,11 @@ Http.Url = function () {
             this.setSearch(search);
         },
 
+        getUrlParam: function (key) {
+            var params = this.getUrlParams();
+            return params[key];
+        },
+
         getUrlParams: function () {
             var params = {};
             var paramList = _.filter(this.getSearch().substr(1).split("&"));

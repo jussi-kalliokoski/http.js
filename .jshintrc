@@ -24,7 +24,8 @@
         "beforeEach",
         "afterEach",
         "sinon",
-        "chai"
+        "chai",
+        "expect"
       ]
     },
     "src/**/*": {
