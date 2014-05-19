@@ -214,6 +214,45 @@ describe("Http.Url", function () {
         });
     });
 
+    describe("getUrlParams()", function () {
+        it("should return the list of URL parameters in the search query", function () {
+            var url = new Url("http://example.com?foo=x&bar=y");
+            url.getUrlParams().should.deep.equal({
+                foo: "x",
+                bar: "y"
+            });
+        });
+
+        it("should support arrays", function () {
+            var url = new Url("http://example.com?foo=x&foo=y");
+            url.getUrlParams().should.deep.equal({
+                foo: ["x", "y"]
+            });
+        });
+
+        it("should ignore square brackets with arrays", function () {
+            var url = new Url("http://example.com?foo[]=x&foo[]=y");
+            url.getUrlParams().should.deep.equal({
+                foo: ["x", "y"]
+            });
+        });
+
+        it("should make a single item with square brackets an array", function () {
+            var url = new Url("http://example.com?foo[]=x");
+            url.getUrlParams().should.deep.equal({
+                foo: ["x"]
+            });
+        });
+
+        it("should use null for unassigned values", function () {
+            var url = new Url("http://example.com?foo&bar");
+            url.getUrlParams().should.deep.equal({
+                foo: null,
+                bar: null
+            });
+        });
+    });
+
     describe(".encodeQuery()", function () {
         it("should convert a key-value map to a URI encoded string", function () {
             var data = {

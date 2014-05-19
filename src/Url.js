@@ -105,6 +105,47 @@ Http.Url = function () {
             }
 
             this.setSearch(search);
+        },
+
+        getUrlParams: function () {
+            var params = {};
+            var paramList = _.filter(this.getSearch().substr(1).split("&"));
+
+            var addParam = function (key, value) {
+                var forceArray = key.substr(-2) === "[]";
+
+                if ( forceArray ) {
+                    key = key.substr(0, key.length - 2);
+                }
+
+                if ( _.has(params, key) ) {
+                    if ( _.isArray(params[key]) ) {
+                        params[key].push(value);
+                    } else {
+                        params[key] = [params[key], value];
+                    }
+                } else {
+                    if ( forceArray ) {
+                        params[key] = [value];
+                    } else {
+                        params[key] = value;
+                    }
+                }
+            };
+
+            _.each(paramList, function (param) {
+                var equalsIndex = param.indexOf("=");
+
+                if ( equalsIndex === -1 ) {
+                    addParam(param, null);
+                } else {
+                    var key = param.substr(0, equalsIndex);
+                    var value = param.substr(equalsIndex + 1);
+                    addParam(key, value);
+                }
+            });
+
+            return params;
         }
     };
 
