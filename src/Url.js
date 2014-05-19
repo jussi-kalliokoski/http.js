@@ -83,6 +83,12 @@ Http.Url = function () {
         self.setHref(urlString);
     }
 
+    Url.prototype = {
+        toString: function () {
+            return this.getHref();
+        }
+    };
+
     Url.location = location;
 
     var encodeParameter = function (key, value) {

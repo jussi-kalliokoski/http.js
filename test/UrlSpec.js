@@ -160,6 +160,13 @@ describe("Http.Url", function () {
         });
     });
 
+    describe("#toString()", function () {
+        it("should return the full url", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.toString().should.equal("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+        });
+    });
+
     describe(".encodeQuery()", function () {
         it("should convert a key-value map to a URI encoded string", function () {
             var data = {
