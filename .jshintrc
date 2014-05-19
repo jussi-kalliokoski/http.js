@@ -1,0 +1,42 @@
+{
+  "node": true,
+  "onecase": true,
+  "maxlen": 140,
+  "boss": true,
+  "latedef": true,
+  "noarg": true,
+  "eqeqeq": true,
+  "eqnull": true,
+  "undef": true,
+  "strict": true,
+  "trailing": true,
+  "expr": true,
+  "overrides": {
+    "test/**/*": {
+      "node": false,
+      "browser": true,
+      "predef": [
+        "Http",
+        "Q",
+        "_",
+        "describe",
+        "it",
+        "beforeEach",
+        "afterEach",
+        "sinon",
+        "chai"
+      ]
+    },
+    "src/**/*": {
+      "node": false,
+      "browser": true,
+      "globals": {
+        "Http": true
+      },
+      "predef": [
+        "Q",
+        "_"
+      ]
+    }
+  }
+}

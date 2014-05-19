@@ -1,0 +1,23 @@
+{
+  "name": "http.js",
+  "version": "0.0.0",
+  "description": "A HTTP utilities library for client-side applications.",
+  "authors": [
+    "Jussi Kalliokoski <jussi.kalliokoski@gmail.com>"
+  ],
+  "keywords": [
+    "http",
+    "request",
+    "browser",
+    "url",
+    "utilities",
+    "promises",
+    "q"
+  ],
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "q": "0.9.7",
+    "lodash": "2.4.1"
+  }
+}
