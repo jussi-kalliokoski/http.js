@@ -1,7 +1,26 @@
 Http.Url = function () {
     "use strict";
 
-    function Url () {
+    function Url (urlString) {
+        var self = this;
+        var attributes = Url.parse(urlString);
+
+        var addGetter = function (name) {
+            var methodName = "get" + name[0].toUpperCase() + name.substr(1);
+            self[methodName] = function () {
+                return attributes[name];
+            };
+        };
+
+        addGetter("href");
+        addGetter("protocol");
+        addGetter("host");
+        addGetter("hostname");
+        addGetter("port");
+        addGetter("pathname");
+        addGetter("search");
+        addGetter("hash");
+        addGetter("origin");
     }
 
     Url.location = location;

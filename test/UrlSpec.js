@@ -12,6 +12,69 @@ describe("Http.Url", function () {
         url.should.be.an.instanceOf(Url);
     });
 
+    describe("#getHref()", function () {
+        it("should return the href of the URL", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.getHref().should.equal("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+        });
+    });
+
+    describe("#getProtocol()", function () {
+        it("should return the protocol of the URL", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.getProtocol().should.equal("https:");
+        });
+    });
+
+    describe("#getHost()", function () {
+        it("should return the host of the URL", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.getHost().should.equal("foo.example.com:912");
+        });
+    });
+
+    describe("#getHostname()", function () {
+        it("should return the hostname of the URL", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.getHostname().should.equal("foo.example.com");
+        });
+    });
+
+    describe("#getPort()", function () {
+        it("should return the port of the URL", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.getPort().should.equal("912");
+        });
+    });
+
+    describe("#getPathname()", function () {
+        it("should return the pathname of the URL", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.getPathname().should.equal("/bar");
+        });
+    });
+
+    describe("#getSearch()", function () {
+        it("should return the search of the URL", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.getSearch().should.equal("?q=cat&x=dog");
+        });
+    });
+
+    describe("#getHash()", function () {
+        it("should return the hash of the URL", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.getHash().should.equal("#section-1");
+        });
+    });
+
+    describe("#getOrigin()", function () {
+        it("should return the origin of the URL", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.getOrigin().should.equal("https://foo.example.com:912");
+        });
+    });
+
     describe(".encodeQuery()", function () {
         it("should convert a key-value map to a URI encoded string", function () {
             var data = {
