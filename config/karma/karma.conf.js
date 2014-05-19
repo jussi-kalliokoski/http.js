@@ -8,7 +8,7 @@ module.exports = function (config) {
     reporters: ["mocha", "coverage"],
 
     coverageReporter: {
-      type: "html",
+      type: "lcov",
       dir: "coverage/"
     },
 

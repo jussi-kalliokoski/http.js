@@ -6,7 +6,7 @@
     "test": "test"
   },
   "scripts": {
-    "coveralls": "cat ./coverage/lcov.info | COVERALLS_SERVICE_NAME=\"travis-ci\" ./node_modules/.bin/coveralls",
+    "coveralls": "cat ./coverage/*/lcov.info | COVERALLS_SERVICE_NAME=\"travis-ci\" ./node_modules/.bin/coveralls",
     "postinstall": "./node_modules/.bin/bower install",
     "test": "./node_modules/.bin/gulp test"
   },
