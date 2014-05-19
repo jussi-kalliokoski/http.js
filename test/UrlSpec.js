@@ -75,6 +75,91 @@ describe("Http.Url", function () {
         });
     });
 
+    describe("#setHref()", function () {
+        it("should reassign the complete URL", function () {
+            var url = new Url("http://www.test.com/");
+            url.setHref("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.getProtocol().should.equal("https:");
+            url.getHost().should.equal("foo.example.com:912");
+            url.getHostname().should.equal("foo.example.com");
+            url.getPort().should.equal("912");
+            url.getPathname().should.equal("/bar");
+            url.getSearch().should.equal("?q=cat&x=dog");
+            url.getHash().should.equal("#section-1");
+            url.getOrigin().should.equal("https://foo.example.com:912");
+        });
+    });
+
+    describe("#setProtocol()", function () {
+        it("should reassign the protocol", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.setProtocol("http:");
+            url.getHref().should.equal("http://foo.example.com:912/bar?q=cat&x=dog#section-1");
+        });
+    });
+
+    describe("#setHost()", function () {
+        it("should reassign the host", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.setHost("www.test.net:51");
+            url.getHref().should.equal("https://www.test.net:51/bar?q=cat&x=dog#section-1");
+        });
+
+        it("should tolerate missing port", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.setHost("www.test.net");
+            url.getHref().should.equal("https://www.test.net/bar?q=cat&x=dog#section-1");
+        });
+    });
+
+    describe("#setHostname()", function () {
+        it("should reassign the hostname", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.setHostname("www.test.net");
+            url.getHref().should.equal("https://www.test.net:912/bar?q=cat&x=dog#section-1");
+        });
+    });
+
+    describe("#setPort()", function () {
+        it("should reassign the port", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.setPort("56");
+            url.getHref().should.equal("https://foo.example.com:56/bar?q=cat&x=dog#section-1");
+        });
+    });
+
+    describe("#setPathname()", function () {
+        it("should reassign the pathname", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.setPathname("/api/call/");
+            url.getHref().should.equal("https://foo.example.com:912/api/call/?q=cat&x=dog#section-1");
+        });
+    });
+
+    describe("#setSearch()", function () {
+        it("should reassign the search", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.setSearch("?cat=q&dog=x");
+            url.getHref().should.equal("https://foo.example.com:912/bar?cat=q&dog=x#section-1");
+        });
+    });
+
+    describe("#setHash()", function () {
+        it("should reassign the hash", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.setHash("#another-section");
+            url.getHref().should.equal("https://foo.example.com:912/bar?q=cat&x=dog#another-section");
+        });
+    });
+
+    describe("#setOrigin()", function () {
+        it("should reassign the origin", function () {
+            var url = new Url("https://foo.example.com:912/bar?q=cat&x=dog#section-1");
+            url.setOrigin("http://www.test.net:56");
+            url.getHref().should.equal("http://www.test.net:56/bar?q=cat&x=dog#section-1");
+        });
+    });
+
     describe(".encodeQuery()", function () {
         it("should convert a key-value map to a URI encoded string", function () {
             var data = {

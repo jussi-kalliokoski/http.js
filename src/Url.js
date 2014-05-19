@@ -3,7 +3,7 @@ Http.Url = function () {
 
     function Url (urlString) {
         var self = this;
-        var attributes = Url.parse(urlString);
+        var attributes;
 
         var addGetter = function (name) {
             var methodName = "get" + name[0].toUpperCase() + name.substr(1);
@@ -21,6 +21,66 @@ Http.Url = function () {
         addGetter("search");
         addGetter("hash");
         addGetter("origin");
+
+        var update = function () {
+            var host = attributes.hostname;
+
+            if ( attributes.port ) {
+                host += ":" + attributes.port;
+            }
+
+            self.setHref(
+                attributes.protocol +
+                "//" +
+                host +
+                attributes.pathname +
+                attributes.search +
+                attributes.hash
+            );
+        };
+
+        var addSetter = function (name) {
+            var methodName = "set" + name[0].toUpperCase() + name.substr(1);
+            self[methodName] = function (value) {
+                attributes[name] = value;
+                update();
+            };
+        };
+
+        self.setHref = function (value) {
+            attributes = Url.parse(value);
+        };
+
+        addSetter("protocol");
+
+        self.setHost = function (value) {
+            var splitValue = value.split(":");
+
+            if ( splitValue.length === 1 ) {
+                splitValue.push("");
+            }
+
+            attributes.hostname = splitValue[0];
+            attributes.port = splitValue[1];
+            update();
+        };
+
+        addSetter("hostname");
+        addSetter("port");
+        addSetter("pathname");
+        addSetter("search");
+        addSetter("hash");
+
+        self.setOrigin = function (value) {
+            self.setHref(
+                value +
+                attributes.pathname +
+                attributes.search +
+                attributes.hash
+            );
+        };
+
+        self.setHref(urlString);
     }
 
     Url.location = location;
