@@ -86,6 +86,25 @@ Http.Url = function () {
     Url.prototype = {
         toString: function () {
             return this.getHref();
+        },
+
+        addUrlParam: function (key, value) {
+            var obj = {};
+            obj[key] = value;
+            this.addUrlParams(obj);
+        },
+
+        addUrlParams: function (obj) {
+            var query = Url.encodeQuery(obj);
+            var search = this.getSearch();
+
+            if ( search.length <= 1 ) {
+                search = "?" + query;
+            } else {
+                search += "&" + query;
+            }
+
+            this.setSearch(search);
         }
     };
 

@@ -167,6 +167,53 @@ describe("Http.Url", function () {
         });
     });
 
+    describe("addUrlParam()", function () {
+        it("should add the URL param to the search query", function () {
+            var url = new Url("http://example.com");
+            url.addUrlParam("x", "http://&@A asd");
+            url.getHref().should.equal("http://example.com/?x=http%3A%2F%2F%26%40A%20asd");
+        });
+
+        it("should flatten arrays into multipart arrays", function () {
+            var url = new Url("http://example.com");
+            url.addUrlParam("x", ["foo", "bar"]);
+            url.getHref().should.equal("http://example.com/?x[]=foo&x[]=bar");
+        });
+
+        it("should insert & at the beginning when the search query is not empty", function () {
+            var url = new Url("http://example.com?y=bar");
+            url.addUrlParam("x", "foo");
+            url.getHref().should.equal("http://example.com/?y=bar&x=foo");
+        });
+    });
+
+    describe("addUrlParams()", function () {
+        it("should add the URL params to the search query", function () {
+            var url = new Url("http://example.com");
+            url.addUrlParams({
+                x: "http://&@A asd",
+                y: "ym"
+            });
+            url.getHref().should.equal("http://example.com/?x=http%3A%2F%2F%26%40A%20asd&y=ym");
+        });
+
+        it("should flatten arrays into multipart arrays", function () {
+            var url = new Url("http://example.com");
+            url.addUrlParams({
+                x: ["foo", "bar"]
+            });
+            url.getHref().should.equal("http://example.com/?x[]=foo&x[]=bar");
+        });
+
+        it("should insert & at the beginning when the search query is not empty", function () {
+            var url = new Url("http://example.com?y=bar");
+            url.addUrlParams({
+                x: "foo"
+            });
+            url.getHref().should.equal("http://example.com/?y=bar&x=foo");
+        });
+    });
+
     describe(".encodeQuery()", function () {
         it("should convert a key-value map to a URI encoded string", function () {
             var data = {
