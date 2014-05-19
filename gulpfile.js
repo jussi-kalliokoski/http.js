@@ -12,7 +12,8 @@ var vendorJavascripts = [
 ];
 
 var sources = [
-    "./src/index.js"
+    "./src/index.js",
+    "./src/Url.js"
 ];
 
 gulp.task("jshint", function () {
