@@ -18,6 +18,7 @@
   "private": true,
   "devDependencies": {
     "q": "0.9.7",
-    "lodash": "2.4.1"
+    "lodash": "2.4.1",
+    "uri.js": "~1.13.1"
   }
 }
