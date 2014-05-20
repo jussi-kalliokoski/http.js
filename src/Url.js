@@ -151,6 +151,19 @@ Http.Url = function () {
             });
 
             return params;
+        },
+
+        setUrlParam: function (key, value) {
+            var params = {};
+            params[key] = value;
+            this.setUrlParams(params);
+        },
+
+        setUrlParams: function (params) {
+            var oldParams = this.getUrlParams();
+            _.extend(oldParams, params);
+            var search = "?" + Url.encodeQuery(oldParams);
+            this.setSearch(search);
         }
     };
 

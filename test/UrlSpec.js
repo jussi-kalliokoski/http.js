@@ -280,6 +280,70 @@ describe("Http.Url", function () {
         });
     });
 
+    describe("#setUrlParam()", function () {
+        it("should rewrite the value as a URI encoded string", function () {
+            var url = new Url("http://example.com?foo&bar");
+            url.setUrlParam("foo", "http://&@A asd");
+            url.getHref().should.equal("http://example.com/?foo=http%3A%2F%2F%26%40A%20asd&bar");
+        });
+
+        it("should add a new param if it doesn't exist", function () {
+            var url = new Url("http://example.com?foo=cat");
+            url.setUrlParam("bar", "http://&@A asd");
+            url.getHref().should.equal("http://example.com/?foo=cat&bar=http%3A%2F%2F%26%40A%20asd");
+
+        });
+
+        it("should flatten arrays into multipart arrays", function () {
+            var url = new Url("http://example.com?foo=cat");
+            url.setUrlParam("bar", ["x", "y"]);
+            url.getHref().should.equal("http://example.com/?foo=cat&bar[]=x&bar[]=y");
+        });
+
+        it("should set null as empty value", function () {
+            var url = new Url("http://example.com?bar=dog&foo=cat");
+            url.setUrlParam("bar", null);
+            url.getHref().should.equal("http://example.com/?bar&foo=cat");
+        });
+    });
+
+    describe("#setUrlParams()", function () {
+        it("should rewrite the params as a URI encoded strings", function () {
+            var url = new Url("http://example.com?foo&bar");
+            url.setUrlParams({
+                foo: "http://&@A asd",
+                bar: "doge"
+            });
+            url.getHref().should.equal("http://example.com/?foo=http%3A%2F%2F%26%40A%20asd&bar=doge");
+        });
+
+        it("should add new params if they don't exist", function () {
+            var url = new Url("http://example.com?foo=cat");
+            url.setUrlParams({
+                bar: "http://&@A asd"
+            });
+            url.getHref().should.equal("http://example.com/?foo=cat&bar=http%3A%2F%2F%26%40A%20asd");
+
+        });
+
+        it("should flatten arrays into multipart arrays", function () {
+            var url = new Url("http://example.com?foo=cat");
+            url.setUrlParams({
+                bar: ["x", "y"]
+            });
+            url.getHref().should.equal("http://example.com/?foo=cat&bar[]=x&bar[]=y");
+        });
+
+        it("should set null as empty value", function () {
+            var url = new Url("http://example.com?bar=dog&foo=cat");
+            url.setUrlParams({
+                bar: null,
+                baz: null
+            });
+            url.getHref().should.equal("http://example.com/?bar&foo=cat&baz");
+        });
+    });
+
     describe(".encodeQuery()", function () {
         it("should convert a key-value map to a URI encoded string", function () {
             var data = {
