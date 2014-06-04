@@ -43,12 +43,10 @@ Http.Request = function (Delegate) {
         };
     };
 
-    var getResponse = function (xhr, options) {
-        var response = {
-            statusCode: xhr.status,
-            headers: getResponseHeaders(xhr, options),
-            body: processResponseBody(xhr, options)
-        };
+    var postProcessResponseBody = function (xhr, options, response) {
+        if ( typeof responseTypeHandlers[options.responseType].parseBody !== "function" ) {
+            return;
+        }
 
         try {
             response.body = responseTypeHandlers[options.responseType].parseBody.call(null, xhr);
@@ -57,6 +55,16 @@ Http.Request = function (Delegate) {
             httpError.message += ": response is not of type " + options.responseType;
             throw httpError;
         }
+    };
+
+    var getResponse = function (xhr, options) {
+        var response = {
+            statusCode: xhr.status,
+            headers: getResponseHeaders(xhr, options),
+            body: processResponseBody(xhr, options)
+        };
+
+        postProcessResponseBody(xhr, options, response);
 
         return response;
     };
