@@ -1,0 +1,42 @@
+{
+  "name": "http-js",
+  "version": "0.0.0",
+  "description": "A HTTP utilities library for client-side applications.",
+  "license": "MIT",
+  "authors": [
+    "Jussi Kalliokoski <jussi.kalliokoski@gmail.com>"
+  ],
+  "keywords": [
+    "http",
+    "request",
+    "browser",
+    "utilities",
+    "promises"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jussi-kalliokoski/http.js"
+  },
+  "main": "dist/http.js",
+  "ignore": [
+    ".git",
+    ".gitignore",
+    ".jscs.json",
+    ".jshintrc",
+    ".travis.yml",
+    "README.md",
+    "bower_components",
+    "config",
+    "coverage",
+    "gulpfile.js",
+    "node_modules",
+    "package.json",
+    "src",
+    "test"
+  ],
+  "dependencies": {
+    "lodash": "2.4.1",
+    "uri.js": "~1.13.1",
+    "es6-promise": "~1.0.0"
+  }
+}
