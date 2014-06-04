@@ -158,6 +158,37 @@ describe("Http.Request", function () {
         });
     });
 
+    it("should send the request with credentials, if `crossOrigin` attribute is set to `use-credentials`", function () {
+        server.respondWith("GET", "http://otherdomain.com/foo", function (xhr) {
+            xhr.withCredentials.should.equal(true);
+            xhr.respond(200, {
+                "Content-Type": "text/plain"
+            }, "OK");
+        });
+
+        var request = new Request({
+            url: "http://otherdomain.com/foo",
+            crossOrigin: "Use-Credentials"
+        });
+
+        return assertOk(request);
+    });
+
+    it("should default to not sending the request with credentials", function () {
+        server.respondWith("GET", "http://otherdomain.com/foo", function (xhr) {
+            xhr.withCredentials.should.equal(false);
+            xhr.respond(200, {
+                "Content-Type": "text/plain"
+            }, "OK");
+        });
+
+        var request = new Request({
+            url: "http://otherdomain.com/foo"
+        });
+
+        return assertOk(request);
+    });
+
     describe(".createXhr()", function () {
         it("should create a new XMLHttpRequest", function () {
             Request.createXhr().should.be.an.instanceOf(XMLHttpRequest);
