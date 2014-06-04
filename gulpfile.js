@@ -8,7 +8,8 @@ var concat = require("gulp-concat");
 
 var vendorJavascripts = [
     "./bower_components/lodash/dist/lodash.js",
-    "./bower_components/es6-promise/promise.js"
+    "./bower_components/es6-promise/promise.js",
+    "./bower_components/uri.js/src/URI.js"
 ];
 
 var sources = [
@@ -16,6 +17,7 @@ var sources = [
     "./src/Errors/*.js",
     "./src/Request.js",
     "./src/RequestSugar.js",
+    "./src/RequestUrlHelpers.js",
     "./src/MethodShorthands.js",
     "./src/ResponseTypeHandlers/*.js"
 ];
