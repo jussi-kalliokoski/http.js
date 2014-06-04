@@ -2,7 +2,8 @@ Http.Request = function (Delegate) {
     "use strict";
 
     var defaultOptions = {
-        method: "GET"
+        method: "GET",
+        crossOrigin: "anonymous"
     };
 
     var prepareBody = function (options) {
@@ -21,9 +22,14 @@ Http.Request = function (Delegate) {
         });
     };
 
+    var prepareCredentials = function (xhr, options) {
+        xhr.withCredentials = options.crossOrigin.toLowerCase() === "use-credentials";
+    };
+
     var createXhrPreparate = function (options) {
         return function (xhr) {
             prepareHeaders(xhr, options);
+            prepareCredentials(xhr, options);
         };
     };
 
