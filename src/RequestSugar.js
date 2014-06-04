@@ -122,21 +122,6 @@ Http.Request = function (Delegate) {
 
     _.extend(HttpRequest, Delegate);
 
-
-    var createHttpMethodShortHand = function (method) {
-        Http[method.toLowerCase()] = function (options) {
-            options.method = method;
-            var request = new HttpRequest(options);
-            return request.send();
-        };
-    };
-
-    createHttpMethodShortHand("GET");
-    createHttpMethodShortHand("POST");
-    createHttpMethodShortHand("PUT");
-    createHttpMethodShortHand("DELETE");
-    createHttpMethodShortHand("PATCH");
-
     HttpRequest.addResponseTypeHandler = function (name, handler) {
         responseTypeHandlers[name] = handler;
     };

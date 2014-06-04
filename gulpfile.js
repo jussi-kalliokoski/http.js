@@ -16,6 +16,7 @@ var sources = [
     "./src/Error.js",
     "./src/Request.js",
     "./src/RequestSugar.js",
+    "./src/MethodShorthands.js",
     "./src/ResponseTypeHandlers/*.js"
 ];
 
