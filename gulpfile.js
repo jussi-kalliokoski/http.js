@@ -30,7 +30,7 @@ gulp.task("jscs", function () {
 });
 
 gulp.task("karma", function () {
-    return gulp.src(vendorJavascripts.concat(sources, "./test/*Spec.js"))
+    return gulp.src(vendorJavascripts.concat(sources, "./test/**/*Spec.js"))
         .pipe(karma({
             configFile: "./config/karma/karma.conf.js",
             action: "run"

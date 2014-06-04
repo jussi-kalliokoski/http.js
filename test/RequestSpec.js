@@ -17,18 +17,22 @@ describe("Http.Request", function () {
         server.restore();
     });
 
+    var defaultResponse = "{\"foo\":\"bar\"}";
+
     var assertOk = function (request) {
         return request.send().then(function (result) {
             result.statusCode.should.equal(200);
-            result.body.should.equal("OK");
-            result.headers["Content-Type"].should.equal("text/plain");
+            result.headers["Content-Type"].should.equal("application/json");
+            result.body.should.deep.equal({
+                foo: "bar"
+            });
         });
     };
 
     it("should send the request to the given URL", function () {
         server.respondWith("GET", "http://example.com/foo?bar=baz", [200, {
-            "Content-Type": "text/plain"
-        }, "OK"]);
+            "Content-Type": "application/json"
+        }, defaultResponse]);
 
         var request = new Request({
             url: "http://example.com/foo?bar=baz"
@@ -41,8 +45,8 @@ describe("Http.Request", function () {
         server.respondWith("POST", "/", function (xhr) {
             xhr.requestBody.should.equal("foo");
             xhr.respond(200, {
-                "Content-Type": "text/plain"
-            }, "OK");
+                "Content-Type": "application/json"
+            }, defaultResponse);
         });
 
         var request = new Request({
@@ -58,8 +62,8 @@ describe("Http.Request", function () {
         server.respondWith("POST", "/", function (xhr) {
             expect(xhr.requestBody).to.equal(null);
             xhr.respond(200, {
-                "Content-Type": "text/plain"
-            }, "OK");
+                "Content-Type": "application/json"
+            }, defaultResponse);
         });
 
         var request = new Request({
@@ -75,8 +79,8 @@ describe("Http.Request", function () {
         server.respondWith("POST", "/", function (xhr) {
             xhr.requestHeaders["X-Other-Custom"].should.equal("bar");
             xhr.respond(200, {
-                "Content-Type": "text/plain"
-            }, "OK");
+                "Content-Type": "application/json"
+            }, defaultResponse);
         });
 
         var request = new Request({
@@ -94,8 +98,8 @@ describe("Http.Request", function () {
         server.respondWith("POST", "/", function (xhr) {
             xhr.requestHeaders["Content-Type"].should.equal("foo;charset=utf-8");
             xhr.respond(200, {
-                "Content-Type": "text/plain"
-            }, "OK");
+                "Content-Type": "application/json"
+            }, defaultResponse);
         });
 
         var request = new Request({
@@ -114,14 +118,14 @@ describe("Http.Request", function () {
             server.respondWith(function (xhr) {
                 xhr.respond(statusCode, {
                     "X-Custom": "foo"
-                }, "Error");
+                }, "{\"message\":\"meow\"}");
             });
 
             var request = new Request({
                 url: "/",
                 method: "POST",
                 headers: {
-                    "Content-Type": "foo;charset=UTF-8"
+                    "Content-Type": "application/json"
                 }
             });
 
@@ -131,7 +135,9 @@ describe("Http.Request", function () {
                 error.should.be.an.instanceOf(Http.Error);
                 error.statusCode.should.equal(statusCode);
                 error.headers["X-Custom"].should.equal("foo");
-                error.body.should.equal("Error");
+                error.body.should.deep.equal({
+                    message: "meow"
+                });
                 error.message.should.equal("POST \"/\" failed with status " + statusCode);
             });
         });
@@ -162,8 +168,8 @@ describe("Http.Request", function () {
         server.respondWith("GET", "http://otherdomain.com/foo", function (xhr) {
             xhr.withCredentials.should.equal(true);
             xhr.respond(200, {
-                "Content-Type": "text/plain"
-            }, "OK");
+                "Content-Type": "application/json"
+            }, defaultResponse);
         });
 
         var request = new Request({
@@ -178,8 +184,8 @@ describe("Http.Request", function () {
         server.respondWith("GET", "http://otherdomain.com/foo", function (xhr) {
             xhr.withCredentials.should.equal(false);
             xhr.respond(200, {
-                "Content-Type": "text/plain"
-            }, "OK");
+                "Content-Type": "application/json"
+            }, defaultResponse);
         });
 
         var request = new Request({
