@@ -36,6 +36,7 @@
         "Http": true
       },
       "predef": [
+        "URI",
         "Promise",
         "_"
       ]
