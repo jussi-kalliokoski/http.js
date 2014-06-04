@@ -122,6 +122,49 @@ Http.PromiseImplementation = Q;
 Http.PromiseImplementation = RSVP.Promise;
 ```
 
+### Errors
+
+http.js rejects its requests with three kind of errors:
+
+#### HttpError
+
+This error is triggered if the server responds with a status code other than 2xx.
+
+##### Properties
+
+* `type` (string): This is always set to `HttpError`.
+* `message` (string): This is something like `GET <url> failed with status 404`.
+* `statusCode` (number): The response status code the server returned.
+* `headers` (object): The response headers the server returned.
+* `body`: (any): The response body the server returned.
+
+#### ResponseError
+
+This error is triggered if the response from the server could not be successfully processed.
+
+##### Properties
+
+* `type` (string): This is always set to `ResponseError`.
+* `message` (string): This is something like `GET <url> failed with status 404`.
+* `statusCode` (number): The response status code the server returned.
+* `headers` (object): The response headers the server returned.
+* `body`: (any): The response body the server returned.
+
+
+#### NetworkError
+
+This error is triggered if no response is available. Possible reasons:
+
+* Connection to server could not be established.
+* Connection timed out.
+* Server did not respond.
+* Server doesn't support CORS for this endpoint.
+
+##### Properties
+
+* `type` (string): This is always set to `NetworkError`.
+* `message` (string): This is something like `GET <url> failed with status due to a network error (missing CORS headers?)`.
+
 ## Contributing
 
 Contributions are most welcome! If you're having problems and don't know why, search the issues to see if someone's had the same issue. If not, file a new issue so we can solve it together and leave the solution visible to others facing the same problem as well. If you find bugs, file an issue, preferably with good reproduction steps. If you want to be totally awesome, you can make a PR to go with your issue, containing a new test case that fails currently!
