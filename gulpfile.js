@@ -48,7 +48,7 @@ gulp.task("karma", function () {
 gulp.task("build", function () {
     return gulp.src(sources)
         .pipe(concat("http.js"))
-        .pipe(gulp.src("./dist/"));
+        .pipe(gulp.dest("./dist/"));
 });
 
 gulp.task("lint", ["jshint", "jscs"]);

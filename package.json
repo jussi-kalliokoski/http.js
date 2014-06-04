@@ -1,36 +1,39 @@
 {
-  "name": "http.js",
+  "name": "http-js",
   "version": "0.0.0",
   "description": "A HTTP utilities library for client-side applications.",
+  "homepage": "https://github.com/jussi-kalliokoski/http.js",
+  "license": "MIT",
+  "authors": [
+    "Jussi Kalliokoski <jussi.kalliokoski@gmail.com>"
+  ],
+  "keywords": [
+    "http",
+    "request",
+    "browser",
+    "utilities",
+    "promises"
+  ],
+  "bugs": {
+    "url": "https://github.com/jussi-kalliokoski/http.js/issues"
+  },
+  "main": "dist/http.js",
+  "files": [
+    "dist"
+  ],
   "directories": {
     "test": "test"
   },
   "scripts": {
     "coveralls": "cat ./coverage/*/lcov.info | COVERALLS_SERVICE_NAME=\"travis-ci\" ./node_modules/.bin/coveralls",
     "postinstall": "./node_modules/.bin/bower install",
+    "prepublish": "./node_modules/.bin/gulp build",
     "test": "./node_modules/.bin/gulp test"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/jussi-kalliokoski/http.js"
   },
-  "keywords": [
-    "http",
-    "request",
-    "browser",
-    "url",
-    "utilities",
-    "promises",
-    "q"
-  ],
-  "authors": [
-    "Jussi Kalliokoski <jussi.kalliokoski@gmail.com>"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/jussi-kalliokoski/http.js/issues"
-  },
-  "homepage": "https://github.com/jussi-kalliokoski/http.js",
   "devDependencies": {
     "coveralls": "^2.10.0",
     "gulp-concat": "^2.2.0",
