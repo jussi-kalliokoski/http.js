@@ -3,15 +3,25 @@ Http.Request = function (Delegate) {
 
     var defaultOptions = {
         method: "GET",
-        crossOrigin: "anonymous"
+        crossOrigin: "anonymous",
+        responseType: "json"
     };
+
+    var responseTypeHandlers = {};
+
 
     var prepareBody = function (options) {
         options.body = options.body || null;
     };
 
+    var prepareDefaultHeaders = function (options) {
+        options.headers = _.extend({}, options.headers);
+        options.headers.Accept = responseTypeHandlers[options.responseType].mimetype;
+    };
+
     var prepareOptions = function (options) {
         options = _.extend({}, defaultOptions, options);
+        prepareDefaultHeaders(options);
         prepareBody(options);
         return options;
     };
@@ -34,11 +44,21 @@ Http.Request = function (Delegate) {
     };
 
     var getResponse = function (xhr, options) {
-        return {
+        var response = {
             statusCode: xhr.status,
             headers: getResponseHeaders(xhr, options),
             body: processResponseBody(xhr, options)
         };
+
+        try {
+            response.body = responseTypeHandlers[options.responseType].parseBody.call(null, xhr);
+        } catch (error) {
+            var httpError = new Http.Error(options, response);
+            httpError.message += ": response is not of type " + options.responseType;
+            throw httpError;
+        }
+
+        return response;
     };
 
     var validateStatusCode = function (xhr, options) {
@@ -108,6 +128,10 @@ Http.Request = function (Delegate) {
     createHttpMethodShortHand("PUT");
     createHttpMethodShortHand("DELETE");
     createHttpMethodShortHand("PATCH");
+
+    HttpRequest.addResponseTypeHandler = function (name, handler) {
+        responseTypeHandlers[name] = handler;
+    };
 
     return HttpRequest;
 }(Http.Request);

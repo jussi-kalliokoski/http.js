@@ -15,7 +15,8 @@ var sources = [
     "./src/index.js",
     "./src/Error.js",
     "./src/Request.js",
-    "./src/RequestSugar.js"
+    "./src/RequestSugar.js",
+    "./src/ResponseTypeHandlers/*.js"
 ];
 
 gulp.task("jshint", function () {
