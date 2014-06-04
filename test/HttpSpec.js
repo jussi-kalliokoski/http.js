@@ -19,13 +19,13 @@ describe("Http", function () {
     using("method shorthands", ["get", "post", "put", "delete", "patch"], function (shorthand) {
         it("should make an HTTP request", function () {
             server.respondWith(shorthand.toUpperCase(), "/foo", [200, {
-                "Content-Type": "text/plain"
-            }, "OK"]);
+                "Content-Type": "application/json"
+            }, "{\"ok\":true}"]);
 
             return Http[shorthand]({ url: "/foo" }).then(function (result) {
                 result.statusCode.should.equal(200);
-                result.body.should.equal("OK");
-                result.headers["Content-Type"].should.equal("text/plain");
+                result.body.should.deep.equal({ ok: true });
+                result.headers["Content-Type"].should.equal("application/json");
             });
         });
     });

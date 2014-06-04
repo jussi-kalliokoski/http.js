@@ -15,7 +15,8 @@ var sources = [
     "./src/index.js",
     "./src/Error.js",
     "./src/Request.js",
-    "./src/RequestSugar.js"
+    "./src/RequestSugar.js",
+    "./src/ResponseTypeHandlers/*.js"
 ];
 
 gulp.task("jshint", function () {
@@ -30,7 +31,7 @@ gulp.task("jscs", function () {
 });
 
 gulp.task("karma", function () {
-    return gulp.src(vendorJavascripts.concat(sources, "./test/*Spec.js"))
+    return gulp.src(vendorJavascripts.concat(sources, "./test/**/*Spec.js"))
         .pipe(karma({
             configFile: "./config/karma/karma.conf.js",
             action: "run"

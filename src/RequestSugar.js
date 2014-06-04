@@ -3,15 +3,25 @@ Http.Request = function (Delegate) {
 
     var defaultOptions = {
         method: "GET",
-        crossOrigin: "anonymous"
+        crossOrigin: "anonymous",
+        responseType: "json"
     };
+
+    var responseTypeHandlers = {};
+
 
     var prepareBody = function (options) {
         options.body = options.body || null;
     };
 
+    var prepareDefaultHeaders = function (options) {
+        options.headers = _.extend({}, options.headers);
+        options.headers.Accept = responseTypeHandlers[options.responseType].mimetype;
+    };
+
     var prepareOptions = function (options) {
         options = _.extend({}, defaultOptions, options);
+        prepareDefaultHeaders(options);
         prepareBody(options);
         return options;
     };
@@ -33,12 +43,30 @@ Http.Request = function (Delegate) {
         };
     };
 
+    var postProcessResponseBody = function (xhr, options, response) {
+        if ( typeof responseTypeHandlers[options.responseType].parseBody !== "function" ) {
+            return;
+        }
+
+        try {
+            response.body = responseTypeHandlers[options.responseType].parseBody.call(null, xhr);
+        } catch (error) {
+            var httpError = new Http.Error(options, response);
+            httpError.message += ": response is not of type " + options.responseType;
+            throw httpError;
+        }
+    };
+
     var getResponse = function (xhr, options) {
-        return {
+        var response = {
             statusCode: xhr.status,
             headers: getResponseHeaders(xhr, options),
             body: processResponseBody(xhr, options)
         };
+
+        postProcessResponseBody(xhr, options, response);
+
+        return response;
     };
 
     var validateStatusCode = function (xhr, options) {
@@ -108,6 +136,10 @@ Http.Request = function (Delegate) {
     createHttpMethodShortHand("PUT");
     createHttpMethodShortHand("DELETE");
     createHttpMethodShortHand("PATCH");
+
+    HttpRequest.addResponseTypeHandler = function (name, handler) {
+        responseTypeHandlers[name] = handler;
+    };
 
     return HttpRequest;
 }(Http.Request);
