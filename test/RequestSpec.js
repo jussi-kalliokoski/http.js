@@ -43,7 +43,7 @@ describe("Http.Request", function () {
 
     it("should use the specified body", function () {
         server.respondWith("POST", "/", function (xhr) {
-            xhr.requestBody.should.equal("foo");
+            xhr.requestBody.should.equal("foo=bar");
             xhr.respond(200, {
                 "Content-Type": "application/json"
             }, defaultResponse);
@@ -52,7 +52,7 @@ describe("Http.Request", function () {
         var request = new Request({
             url: "/",
             method: "POST",
-            body: "foo"
+            body: { foo: "bar" }
         });
 
         return assertOk(request);
