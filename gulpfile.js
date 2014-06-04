@@ -8,34 +8,36 @@ var concat = require("gulp-concat");
 
 var vendorJavascripts = [
     "./bower_components/lodash/dist/lodash.js",
-    "./bower_components/q/q.js"
+    "./bower_components/es6-promise/promise.js"
 ];
 
 var sources = [
     "./src/index.js",
-    "./src/Request.js"
+    "./src/Error.js",
+    "./src/Request.js",
+    "./src/RequestSugar.js"
 ];
 
 gulp.task("jshint", function () {
-  return gulp.src(sources)
-    .pipe(jshint())
-    .pipe(jshint.reporter("default"));
+    return gulp.src(sources)
+        .pipe(jshint())
+        .pipe(jshint.reporter("default"));
 });
 
 gulp.task("jscs", function () {
-  return gulp.src(sources)
-    .pipe(jscs("./.jscs.json"));
+    return gulp.src(sources)
+        .pipe(jscs("./.jscs.json"));
 });
 
 gulp.task("karma", function () {
-  return gulp.src(vendorJavascripts.concat(sources, "./test/*Spec.js"))
-    .pipe(karma({
-      configFile: "./config/karma/karma.conf.js",
-      action: "run"
-    }))
-    .on("error", function (error) {
-      throw error;
-    });
+    return gulp.src(vendorJavascripts.concat(sources, "./test/*Spec.js"))
+        .pipe(karma({
+            configFile: "./config/karma/karma.conf.js",
+            action: "run"
+        }))
+        .on("error", function (error) {
+            throw error;
+        });
 });
 
 gulp.task("build", function () {

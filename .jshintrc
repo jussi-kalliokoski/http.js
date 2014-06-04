@@ -17,8 +17,9 @@
       "browser": true,
       "predef": [
         "Http",
-        "Q",
+        "Promise",
         "_",
+        "using",
         "describe",
         "it",
         "beforeEach",
@@ -35,7 +36,7 @@
         "Http": true
       },
       "predef": [
-        "Q",
+        "Promise",
         "_"
       ]
     }
