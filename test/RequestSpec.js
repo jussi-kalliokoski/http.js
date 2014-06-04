@@ -132,7 +132,7 @@ describe("Http.Request", function () {
             return request.send().then(function () {
                 throw new Error("request should have failed");
             }).catch(function (error) {
-                error.should.be.an.instanceOf(Http.Error);
+                error.should.be.an.instanceOf(Http.Errors.HttpError);
                 error.statusCode.should.equal(statusCode);
                 error.headers["X-Custom"].should.equal("foo");
                 error.body.should.deep.equal({
@@ -159,7 +159,7 @@ describe("Http.Request", function () {
         return request.send().then(function () {
             throw new Error("request should have failed");
         }).catch(function (error) {
-            error.should.be.an.instanceOf(Http.Error);
+            error.should.be.an.instanceOf(Http.Errors.NetworkError);
             error.message.should.equal("POST \"/\" failed due to a network error (missing CORS headers?)");
         });
     });

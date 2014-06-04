@@ -51,9 +51,7 @@ Http.Request = function (Delegate) {
         try {
             response.body = responseTypeHandlers[options.responseType].parseBody.call(null, xhr);
         } catch (error) {
-            var httpError = new Http.Error(options, response);
-            httpError.message += ": response is not of type " + options.responseType;
-            throw httpError;
+            throw new Http.Errors.ResponseError(options, response, "response is not of type " + options.responseType);
         }
     };
 
@@ -71,7 +69,7 @@ Http.Request = function (Delegate) {
 
     var validateStatusCode = function (xhr, options) {
         if ( xhr.status < 200 || xhr.status >= 300 ) {
-            throw new Http.Error(options, getResponse(xhr, options));
+            throw new Http.Errors.HttpError(options, getResponse(xhr, options));
         }
     };
 

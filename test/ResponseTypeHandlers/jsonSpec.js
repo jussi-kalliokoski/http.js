@@ -48,11 +48,11 @@ describe("Http.Request (json response type handler)", function () {
         }).then(function () {
             throw new Error("request should have failed");
         }).catch(function (error) {
-            error.should.be.an.instanceOf(Http.Error);
+            error.should.be.an.instanceOf(Http.Errors.ResponseError);
             error.statusCode.should.equal(200);
             error.headers["Content-Type"].should.equal("application/json");
             error.body.should.equal("{foo:1}");
-            error.message.should.equal("GET \"http://otherdomain.com/foo\" failed with status 200: response is not of type json");
+            error.message.should.equal("GET \"http://otherdomain.com/foo\" failed: response is not of type json");
         });
     });
 });
