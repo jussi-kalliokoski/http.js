@@ -4,19 +4,31 @@ Http.Request = function (Delegate) {
     var defaultOptions = {
         method: "GET",
         crossOrigin: "anonymous",
-        responseType: "json"
+        responseType: "json",
+        contentType: "form-urlencoded"
     };
 
     var responseTypeHandlers = {};
+    var requestTypeHandlers = {};
 
 
     var prepareBody = function (options) {
+        if ( options.method !== "GET" && typeof requestTypeHandlers[options.contentType].formatBody === "function" ) {
+            options.body = requestTypeHandlers[options.contentType].formatBody.call(null, options.body);
+        }
+
         options.body = options.body || null;
     };
 
     var prepareDefaultHeaders = function (options) {
-        options.headers = _.extend({}, options.headers);
-        options.headers.Accept = responseTypeHandlers[options.responseType].mimetype;
+        var headers = {};
+        headers.Accept = responseTypeHandlers[options.responseType].mimetype;
+
+        if ( options.method !== "GET" ) {
+            headers["Content-Type"] = requestTypeHandlers[options.contentType].mimetype;
+        }
+
+        options.headers = _.extend(headers, options.headers);
     };
 
     var prepareOptions = function (options) {
@@ -122,6 +134,10 @@ Http.Request = function (Delegate) {
 
     HttpRequest.addResponseTypeHandler = function (name, handler) {
         responseTypeHandlers[name] = handler;
+    };
+
+    HttpRequest.addRequestTypeHandler = function (name, handler) {
+        requestTypeHandlers[name] = handler;
     };
 
     return HttpRequest;
