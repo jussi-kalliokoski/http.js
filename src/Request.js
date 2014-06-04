@@ -14,7 +14,7 @@ Http.Request = function () {
             };
 
             xhr.onerror = function (error) {
-                reject(new Http.Error(options));
+                reject(new Http.Errors.NetworkError(options));
             };
         });
 

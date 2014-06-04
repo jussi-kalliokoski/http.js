@@ -13,7 +13,7 @@ var vendorJavascripts = [
 
 var sources = [
     "./src/index.js",
-    "./src/Error.js",
+    "./src/Errors/*.js",
     "./src/Request.js",
     "./src/RequestSugar.js",
     "./src/MethodShorthands.js",

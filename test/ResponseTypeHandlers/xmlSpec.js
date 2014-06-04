@@ -48,11 +48,11 @@ describe("Http.Request (xml response type handler)", function () {
         }).then(function (result) {
             throw new Error("request should have failed");
         }).catch(function (error) {
-            error.should.be.an.instanceOf(Http.Error);
+            error.should.be.an.instanceOf(Http.Errors.ResponseError);
             error.statusCode.should.equal(200);
             error.headers["Content-Type"].should.equal("text/xml");
             error.body.should.equal("<error");
-            error.message.should.equal("GET \"/foo\" failed with status 200: response is not of type xml");
+            error.message.should.equal("GET \"/foo\" failed: response is not of type xml");
         });
     });
 });
