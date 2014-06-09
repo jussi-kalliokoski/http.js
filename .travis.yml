@@ -1,5 +1,9 @@
 language: node_js
 node_js:
   - "0.10"
+env:
+  global:
+    - BROWSERSTACK_USER: jussikalliokoski1
+    - secure: "W6bcODbXn5JTI5fb7DD1HUIrq5O7S4Cdu8N+nMM+gzInmgbqsMS+d/W06LgI91nRfPfXU0QJNT2BY1J6KsdtDopFQBKOBll7uxNHndkOhOO5gohlZ69V8G4id3phd9zZ1kHpa1uGOdyqG09jlkdzBJx099Jnp12HAiIXIVz12NY="
 after_success:
  - npm run-script coveralls
