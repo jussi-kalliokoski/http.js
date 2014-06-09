@@ -25,7 +25,7 @@
     "test": "test"
   },
   "scripts": {
-    "coveralls": "cat ./coverage/*/lcov.info | COVERALLS_SERVICE_NAME=\"travis-ci\" ./node_modules/.bin/coveralls",
+    "coveralls": "./node_modules/.bin/lcov-result-merger \"coverage/*/lcov.info\" | COVERALLS_SERVICE_NAME=\"travis-ci\" ./node_modules/.bin/coveralls",
     "postinstall": "./node_modules/.bin/bower install",
     "prepublish": "./node_modules/.bin/gulp build",
     "test": "./node_modules/.bin/gulp test"
@@ -52,6 +52,7 @@
     "karma-mocha": "^0.1.3",
     "karma-mocha-reporter": "^0.2.5",
     "karma-phantomjs-launcher": "^0.1.4",
+    "lcov-result-merger": "0.0.2",
     "mocha": "^1.19.0"
   }
 }
