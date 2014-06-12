@@ -16,7 +16,7 @@ describe("Http.Request (json response type handler)", function () {
 
     it("should send the request to the given URL", function () {
         server.respondWith("GET", "http://otherdomain.com/foo", function (xhr) {
-            xhr.requestHeaders.Accept.should.equal("application/json");
+            expect(xhr.requestHeaders.Accept).to.equal("application/json");
             xhr.respond(200, {
                 "Content-Type": "application/json"
             }, defaultResponse);
@@ -26,9 +26,9 @@ describe("Http.Request (json response type handler)", function () {
             url: "http://otherdomain.com/foo",
             responseType: "json"
         }).then(function (result) {
-            result.statusCode.should.equal(200);
-            result.headers["Content-Type"].should.equal("application/json");
-            result.body.should.deep.equal({
+            expect(result.statusCode).to.equal(200);
+            expect(result.headers["Content-Type"]).to.equal("application/json");
+            expect(result.body).to.deep.equal({
                 foo: "bar"
             });
         });
@@ -36,7 +36,7 @@ describe("Http.Request (json response type handler)", function () {
 
     it("should throw an error if response is not valid JSON", function () {
         server.respondWith("GET", "http://otherdomain.com/foo", function (xhr) {
-            xhr.requestHeaders.Accept.should.equal("application/json");
+            expect(xhr.requestHeaders.Accept).to.equal("application/json");
             xhr.respond(200, {
                 "Content-Type": "application/json"
             }, "{foo:1}");
@@ -47,12 +47,12 @@ describe("Http.Request (json response type handler)", function () {
             responseType: "json"
         }).then(function () {
             throw new Error("request should have failed");
-        }).catch(function (error) {
-            error.should.be.an.instanceOf(Http.Errors.ResponseError);
-            error.statusCode.should.equal(200);
-            error.headers["Content-Type"].should.equal("application/json");
-            error.body.should.equal("{foo:1}");
-            error.message.should.equal("GET \"http://otherdomain.com/foo\" failed: response is not of type json");
+        })["catch"](function (error) {
+            expect(error).to.be.an.instanceOf(Http.Errors.ResponseError);
+            expect(error.statusCode).to.equal(200);
+            expect(error.headers["Content-Type"]).to.equal("application/json");
+            expect(error.body).to.equal("{foo:1}");
+            expect(error.message).to.equal("GET \"http://otherdomain.com/foo\" failed: response is not of type json");
         });
     });
 });

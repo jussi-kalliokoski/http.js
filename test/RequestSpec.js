@@ -5,7 +5,7 @@ describe("Http.Request", function () {
     var server;
 
     it("should be a function", function () {
-        Request.should.be.a("function");
+        expect(Request).to.be.a("function");
     });
 
     beforeEach(function () {
@@ -21,9 +21,9 @@ describe("Http.Request", function () {
 
     var assertOk = function (request) {
         return request.send().then(function (result) {
-            result.statusCode.should.equal(200);
-            result.headers["Content-Type"].should.equal("application/json");
-            result.body.should.deep.equal({
+            expect(result.statusCode).to.equal(200);
+            expect(result.headers["Content-Type"]).to.equal("application/json");
+            expect(result.body).to.deep.equal({
                 foo: "bar"
             });
         });
@@ -43,7 +43,7 @@ describe("Http.Request", function () {
 
     it("should use the specified body", function () {
         server.respondWith("POST", "/", function (xhr) {
-            xhr.requestBody.should.equal("foo=bar");
+            expect(xhr.requestBody).to.equal("foo=bar");
             xhr.respond(200, {
                 "Content-Type": "application/json"
             }, defaultResponse);
@@ -77,7 +77,7 @@ describe("Http.Request", function () {
 
     it("should send the request with given headers", function () {
         server.respondWith("POST", "/", function (xhr) {
-            xhr.requestHeaders["X-Other-Custom"].should.equal("bar");
+            expect(xhr.requestHeaders["X-Other-Custom"]).to.equal("bar");
             xhr.respond(200, {
                 "Content-Type": "application/json"
             }, defaultResponse);
@@ -96,7 +96,7 @@ describe("Http.Request", function () {
 
     it("should not overwrite the Content-Type header", function () {
         server.respondWith("POST", "/", function (xhr) {
-            xhr.requestHeaders["Content-Type"].should.equal("foo;charset=utf-8");
+            expect(xhr.requestHeaders["Content-Type"]).to.equal("foo;charset=utf-8");
             xhr.respond(200, {
                 "Content-Type": "application/json"
             }, defaultResponse);
@@ -131,14 +131,14 @@ describe("Http.Request", function () {
 
             return request.send().then(function () {
                 throw new Error("request should have failed");
-            }).catch(function (error) {
-                error.should.be.an.instanceOf(Http.Errors.HttpError);
-                error.statusCode.should.equal(statusCode);
-                error.headers["X-Custom"].should.equal("foo");
-                error.body.should.deep.equal({
+            })["catch"](function (error) {
+                expect(error).to.be.an.instanceOf(Http.Errors.HttpError);
+                expect(error.statusCode).to.equal(statusCode);
+                expect(error.headers["X-Custom"]).to.equal("foo");
+                expect(error.body).to.deep.equal({
                     message: "meow"
                 });
-                error.message.should.equal("POST \"/\" failed with status " + statusCode);
+                expect(error.message).to.equal("POST \"/\" failed with status " + statusCode);
             });
         });
     });
@@ -158,15 +158,15 @@ describe("Http.Request", function () {
 
         return request.send().then(function () {
             throw new Error("request should have failed");
-        }).catch(function (error) {
-            error.should.be.an.instanceOf(Http.Errors.NetworkError);
-            error.message.should.equal("POST \"/\" failed due to a network error (missing CORS headers?)");
+        })["catch"](function (error) {
+            expect(error).to.be.an.instanceOf(Http.Errors.NetworkError);
+            expect(error.message).to.equal("POST \"/\" failed due to a network error (missing CORS headers?)");
         });
     });
 
     it("should send the request with credentials, if `crossOrigin` attribute is set to `use-credentials`", function () {
         server.respondWith("GET", "http://otherdomain.com/foo", function (xhr) {
-            xhr.withCredentials.should.equal(true);
+            expect(xhr.withCredentials).to.equal(true);
             xhr.respond(200, {
                 "Content-Type": "application/json"
             }, defaultResponse);
@@ -182,7 +182,7 @@ describe("Http.Request", function () {
 
     it("should default to not sending the request with credentials", function () {
         server.respondWith("GET", "http://otherdomain.com/foo", function (xhr) {
-            xhr.withCredentials.should.equal(false);
+            expect(xhr.withCredentials).to.equal(false);
             xhr.respond(200, {
                 "Content-Type": "application/json"
             }, defaultResponse);
@@ -197,7 +197,7 @@ describe("Http.Request", function () {
 
     describe(".createXhr()", function () {
         it("should create a new XMLHttpRequest", function () {
-            Request.createXhr().should.be.an.instanceOf(XMLHttpRequest);
+            expect(Request.createXhr()).to.be.an.instanceOf(XMLHttpRequest);
         });
     });
 });
