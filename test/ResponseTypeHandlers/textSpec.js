@@ -14,7 +14,7 @@ describe("Http.Request (text response type handler)", function () {
 
     it("should send the request to the given URL", function () {
         server.respondWith("GET", "/foo", function (xhr) {
-            xhr.requestHeaders.Accept.should.equal("text/plain");
+            expect(xhr.requestHeaders.Accept).to.equal("text/plain");
             xhr.respond(200, {
                 "Content-Type": "text/plain"
             }, "Ok");
@@ -24,9 +24,9 @@ describe("Http.Request (text response type handler)", function () {
             url: "/foo",
             responseType: "text"
         }).then(function (result) {
-            result.statusCode.should.equal(200);
-            result.headers["Content-Type"].should.equal("text/plain");
-            result.body.should.equal("Ok");
+            expect(result.statusCode).to.equal(200);
+            expect(result.headers["Content-Type"]).to.equal("text/plain");
+            expect(result.body).to.equal("Ok");
         });
     });
 });

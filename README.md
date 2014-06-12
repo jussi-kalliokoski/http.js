@@ -44,7 +44,7 @@ Http.get({ url: "/foo" }).then(function (response) {
     //   }
     // }
     console.log(response);
-}).catch(function (error) {
+})["catch"](function (error) {
     // See section titled `Errors` for further information.
     console.error(error);
 });

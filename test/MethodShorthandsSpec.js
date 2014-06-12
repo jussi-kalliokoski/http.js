@@ -19,9 +19,9 @@ describe("Http method shorthands", function () {
             }, "{\"ok\":true}"]);
 
             return Http[shorthand]({ url: "/foo" }).then(function (result) {
-                result.statusCode.should.equal(200);
-                result.body.should.deep.equal({ ok: true });
-                result.headers["Content-Type"].should.equal("application/json");
+                expect(result.statusCode).to.equal(200);
+                expect(result.body).to.deep.equal({ ok: true });
+                expect(result.headers["Content-Type"]).to.equal("application/json");
             });
         });
     });

@@ -14,7 +14,7 @@ describe("Http Request with `contentType` set to `json`", function () {
 
     it("should JSON encode the body", function () {
         server.respondWith("POST", "/foo", function (xhr) {
-            xhr.requestBody.should.equal("{\"foo\":[1,2],\"bar\":\"3 4\"}");
+            expect(xhr.requestBody).to.equal("{\"foo\":[1,2],\"bar\":\"3 4\"}");
             xhr.respond(200, {
                 "Content-Type": "application/json"
             }, "{\"ok\":true}");
@@ -31,9 +31,9 @@ describe("Http Request with `contentType` set to `json`", function () {
         });
 
         return request.send().then(function (result) {
-            result.statusCode.should.equal(200);
-            result.body.should.deep.equal({ ok: true });
-            result.headers["Content-Type"].should.equal("application/json");
+            expect(result.statusCode).to.equal(200);
+            expect(result.body).to.deep.equal({ ok: true });
+            expect(result.headers["Content-Type"]).to.equal("application/json");
         });
     });
 });

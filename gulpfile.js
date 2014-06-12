@@ -7,7 +7,7 @@ var karma = require("gulp-karma");
 var concat = require("gulp-concat");
 
 var vendorJavascripts = [
-    "./bower_components/lodash/dist/lodash.js",
+    "./bower_components/lodash/dist/lodash.compat.js",
     "./bower_components/es6-promise/promise.js",
     "./bower_components/uri.js/src/URI.js"
 ];

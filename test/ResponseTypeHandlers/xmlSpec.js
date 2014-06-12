@@ -16,7 +16,7 @@ describe("Http.Request (xml response type handler)", function () {
 
     it("should send the request to the given URL", function () {
         server.respondWith("GET", "/foo", function (xhr) {
-            xhr.requestHeaders.Accept.should.equal("application/xml, text/xml");
+            expect(xhr.requestHeaders.Accept).to.equal("application/xml, text/xml");
             xhr.respond(200, {
                 "Content-Type": "application/xml"
             }, defaultResponse);
@@ -26,16 +26,16 @@ describe("Http.Request (xml response type handler)", function () {
             url: "/foo",
             responseType: "xml"
         }).then(function (result) {
-            result.statusCode.should.equal(200);
-            result.headers["Content-Type"].should.equal("application/xml");
-            result.body.documentElement.nodeName.should.equal("foo");
-            result.body.documentElement.textContent.should.equal("bar");
+            expect(result.statusCode).to.equal(200);
+            expect(result.headers["Content-Type"]).to.equal("application/xml");
+            expect(result.body.documentElement.nodeName).to.equal("foo");
+            expect(result.body.documentElement.textContent).to.equal("bar");
         });
     });
 
     it("should throw an error if response is not valid XML", function () {
         server.respondWith("GET", "/foo", function (xhr) {
-            xhr.requestHeaders.Accept.should.equal("application/xml, text/xml");
+            expect(xhr.requestHeaders.Accept).to.equal("application/xml, text/xml");
             xhr.respond(200, {
                 "Content-Type": "text/xml"
             }, "<error");
@@ -47,12 +47,12 @@ describe("Http.Request (xml response type handler)", function () {
             responseType: "xml"
         }).then(function (result) {
             throw new Error("request should have failed");
-        }).catch(function (error) {
-            error.should.be.an.instanceOf(Http.Errors.ResponseError);
-            error.statusCode.should.equal(200);
-            error.headers["Content-Type"].should.equal("text/xml");
-            error.body.should.equal("<error");
-            error.message.should.equal("GET \"/foo\" failed: response is not of type xml");
+        })["catch"](function (error) {
+            expect(error).to.be.an.instanceOf(Http.Errors.ResponseError);
+            expect(error.statusCode).to.equal(200);
+            expect(error.headers["Content-Type"]).to.equal("text/xml");
+            expect(error.body).to.equal("<error");
+            expect(error.message).to.equal("GET \"/foo\" failed: response is not of type xml");
         });
     });
 });
