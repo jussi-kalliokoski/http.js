@@ -172,7 +172,7 @@ Http.Request = function (Delegate) {
     var getResponseHeaders = function (xhr, options) {
         var headers = {};
 
-        xhr.getAllResponseHeaders().replace(/^([-\w]+): (.+)$/m, function (line, key, value) {
+        xhr.getAllResponseHeaders().replace(/^([-\w]+): ([^\r]+)$/gm, function (line, key, value) {
             headers[key] = value;
         });
 
