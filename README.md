@@ -32,7 +32,7 @@ Courtesy of the test suite that's run on [BrowserStack](https://www.browserstack
 * Chrome: Latest stable version.
 * Firefox: Latest stable version.
 * Opera: Latest stable version.
-* Internet Explorer: 9, 10, 11. Might work on IE8 as well, but Chai doesn't work there, so the tests aren't run there, and thus the functionality won't be guaranteed.
+* Internet Explorer: 8, 9, 10, 11.
 
 ## Usage
 
