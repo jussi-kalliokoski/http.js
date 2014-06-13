@@ -23,7 +23,7 @@ describe("Http.Request", function () {
         return request.send().then(function (result) {
             expect(result.statusCode).to.equal(200);
             expect(result.headers["Content-Type"]).to.equal("application/json");
-            expect(result.body).to.deep.equal({
+            expect(result.body).to.eql({
                 foo: "bar"
             });
         });
@@ -132,10 +132,10 @@ describe("Http.Request", function () {
             return request.send().then(function () {
                 throw new Error("request should have failed");
             })["catch"](function (error) {
-                expect(error).to.be.an.instanceOf(Http.Errors.HttpError);
+                expect(error).to.be.an(Http.Errors.HttpError);
                 expect(error.statusCode).to.equal(statusCode);
                 expect(error.headers["X-Custom"]).to.equal("foo");
-                expect(error.body).to.deep.equal({
+                expect(error.body).to.eql({
                     message: "meow"
                 });
                 expect(error.message).to.equal("POST \"/\" failed with status " + statusCode);
@@ -159,7 +159,7 @@ describe("Http.Request", function () {
         return request.send().then(function () {
             throw new Error("request should have failed");
         })["catch"](function (error) {
-            expect(error).to.be.an.instanceOf(Http.Errors.NetworkError);
+            expect(error).to.be.an(Http.Errors.NetworkError);
             expect(error.message).to.equal("POST \"/\" failed due to a network error (missing CORS headers?)");
         });
     });
@@ -197,7 +197,7 @@ describe("Http.Request", function () {
 
     describe(".createXhr()", function () {
         it("should create a new XMLHttpRequest", function () {
-            expect(Request.createXhr()).to.be.an.instanceOf(XMLHttpRequest);
+            expect(Request.createXhr()).to.be.an(XMLHttpRequest);
         });
     });
 });

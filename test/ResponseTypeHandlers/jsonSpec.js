@@ -28,7 +28,7 @@ describe("Http.Request (json response type handler)", function () {
         }).then(function (result) {
             expect(result.statusCode).to.equal(200);
             expect(result.headers["Content-Type"]).to.equal("application/json");
-            expect(result.body).to.deep.equal({
+            expect(result.body).to.eql({
                 foo: "bar"
             });
         });
@@ -48,7 +48,7 @@ describe("Http.Request (json response type handler)", function () {
         }).then(function () {
             throw new Error("request should have failed");
         })["catch"](function (error) {
-            expect(error).to.be.an.instanceOf(Http.Errors.ResponseError);
+            expect(error).to.be.an(Http.Errors.ResponseError);
             expect(error.statusCode).to.equal(200);
             expect(error.headers["Content-Type"]).to.equal("application/json");
             expect(error.body).to.equal("{foo:1}");

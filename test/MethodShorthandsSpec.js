@@ -20,7 +20,7 @@ describe("Http method shorthands", function () {
 
             return Http[shorthand]({ url: "/foo" }).then(function (result) {
                 expect(result.statusCode).to.equal(200);
-                expect(result.body).to.deep.equal({ ok: true });
+                expect(result.body).to.eql({ ok: true });
                 expect(result.headers["Content-Type"]).to.equal("application/json");
             });
         });
