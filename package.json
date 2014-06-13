@@ -1,6 +1,6 @@
 {
   "name": "http-js",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A HTTP utilities library for client-side applications.",
   "homepage": "https://github.com/jussi-kalliokoski/http.js",
   "license": "MIT",
