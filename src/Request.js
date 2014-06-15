@@ -10,6 +10,11 @@ Http.Request = function () {
                     return;
                 }
 
+                if ( xhr.status === 0 ) {
+                    reject(new Http.Errors.NetworkError(options));
+                    return;
+                }
+
                 resolve(xhr);
             };
 

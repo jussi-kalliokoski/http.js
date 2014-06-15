@@ -143,9 +143,30 @@ describe("Http.Request", function () {
         });
     });
 
-    it("should return an error for request that fail due to a network error", function () {
+    it("should return an error for request that fails due to a network error", function () {
         server.respondWith(function (xhr) {
             xhr.onerror();
+        });
+
+        var request = new Request({
+            url: "/",
+            method: "POST",
+            headers: {
+                "Content-Type": "foo;charset=UTF-8"
+            }
+        });
+
+        return request.send().then(function () {
+            throw new Error("request should have failed");
+        })["catch"](function (error) {
+            expect(error).to.be.an(Http.Errors.NetworkError);
+            expect(error.message).to.equal("POST \"/\" failed due to a network error (missing CORS headers?)");
+        });
+    });
+
+    it("should return a network error when the request finishes with a status code 0", function () {
+        server.respondWith(function (xhr) {
+            xhr.respond(0, {}, null);
         });
 
         var request = new Request({
