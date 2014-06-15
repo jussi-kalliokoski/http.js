@@ -94,6 +94,24 @@ describe("Http.Request", function () {
         return assertOk(request);
     });
 
+    it("should send the request with given username and password", function () {
+        server.respondWith("GET", "/", function (xhr) {
+            expect(xhr.username).to.equal("foo");
+            expect(xhr.password).to.equal("bar");
+            xhr.respond(200, {
+                "Content-Type": "application/json"
+            }, defaultResponse);
+        });
+
+        var request = new Request({
+            url: "/",
+            username: "foo",
+            password: "bar"
+        });
+
+        return assertOk(request);
+    });
+
     it("should not overwrite the Content-Type header", function () {
         server.respondWith("POST", "/", function (xhr) {
             expect(xhr.requestHeaders["Content-Type"]).to.equal("foo;charset=utf-8");
