@@ -161,6 +161,24 @@ describe("Http.Request", function () {
         });
     });
 
+    it("should reject with a CancellationError when the request is cancelled", function () {
+        server.respondWith(function (xhr) {
+            xhr.onabort();
+        });
+
+        var request = new Request({
+            url: "/",
+            method: "POST"
+        });
+
+        return request.send().then(function () {
+            throw new Error("request should have failed");
+        })["catch"](function (error) {
+            expect(error).to.be.an(Http.Errors.CancellationError);
+            expect(error.message).to.equal("POST \"/\" was cancelled");
+        });
+    });
+
     it("should return an error for request that fails due to a network error", function () {
         server.respondWith(function (xhr) {
             xhr.onerror();

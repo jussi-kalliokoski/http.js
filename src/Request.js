@@ -21,6 +21,10 @@ Http.Request = function () {
             xhr.onerror = function (error) {
                 reject(new Http.Errors.NetworkError(options));
             };
+
+            xhr.onabort = function (event) {
+                reject(new Http.Errors.CancellationError(options));
+            };
         });
 
         xhr.open(options.method, options.url, true, options.username, options.password);
