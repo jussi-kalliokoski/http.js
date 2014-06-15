@@ -23,7 +23,7 @@ Http.Request = function () {
             };
         });
 
-        xhr.open(options.method, options.url, true);
+        xhr.open(options.method, options.url, true, options.username, options.password);
 
         options.prepare.call(null, xhr);
 

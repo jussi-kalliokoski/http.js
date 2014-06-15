@@ -122,6 +122,8 @@ Http.Request = function (Delegate) {
             method: options.method,
             url: options.url,
             body: options.body,
+            username: options.username,
+            password: options.password,
             prepare: createXhrPreparate(options)
         });
 
