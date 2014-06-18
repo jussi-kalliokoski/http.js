@@ -30,11 +30,12 @@ describe("Http Request URL Helpers", function () {
 
     it("should add parameters in `query` option to the search query", createSimpleTest(
         "/foo?bar=1&cat=5&cat=6", {
-        method: "GET",
-        url: "/foo",
-        query: {
-            bar: 1,
-            cat: [5, 6]
+            method: "GET",
+            url: "/foo",
+            query: {
+                bar: 1,
+                cat: [5, 6]
+            }
         }
-    }));
+    ));
 });

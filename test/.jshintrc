@@ -1,0 +1,18 @@
+{
+  "extends": "../.jshintrc",
+  "node": false,
+  "browser": true,
+  "predef": [
+    "Http",
+    "Promise",
+    "_",
+    "using",
+    "describe",
+    "it",
+    "beforeEach",
+    "afterEach",
+    "sinon",
+    "chai",
+    "expect"
+  ]
+}

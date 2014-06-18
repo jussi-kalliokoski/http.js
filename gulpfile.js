@@ -25,14 +25,21 @@ var sources = [
 ];
 
 gulp.task("jshint", function () {
-    return gulp.src(sources)
+    return gulp.src(sources.concat("./test/**/*Spec.js", "gulpfile.js"))
         .pipe(jshint())
-        .pipe(jshint.reporter("default"));
+        .pipe(jshint.reporter("default"))
+        .pipe(jshint.reporter("fail"))
+        .on("error", function (error) {
+            throw error;
+        });
 });
 
 gulp.task("jscs", function () {
-    return gulp.src(sources)
-        .pipe(jscs("./.jscs.json"));
+    return gulp.src(sources.concat("./test/**/*Spec.js", "gulpfile.js"))
+        .pipe(jscs("./.jscs.json"))
+        .on("error", function (error) {
+            throw error;
+        });
 });
 
 gulp.task("karma", function () {

@@ -10,36 +10,5 @@
   "undef": true,
   "strict": true,
   "trailing": true,
-  "expr": true,
-  "overrides": {
-    "test/**/*": {
-      "node": false,
-      "browser": true,
-      "predef": [
-        "Http",
-        "Promise",
-        "_",
-        "using",
-        "describe",
-        "it",
-        "beforeEach",
-        "afterEach",
-        "sinon",
-        "chai",
-        "expect"
-      ]
-    },
-    "src/**/*": {
-      "node": false,
-      "browser": true,
-      "globals": {
-        "Http": true
-      },
-      "predef": [
-        "URI",
-        "Promise",
-        "_"
-      ]
-    }
-  }
+  "expr": true
 }

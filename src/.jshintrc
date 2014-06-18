@@ -1,0 +1,13 @@
+{
+  "extends": "../.jshintrc",
+  "node": false,
+  "browser": true,
+  "globals": {
+    "Http": true
+  },
+  "predef": [
+    "URI",
+    "Promise",
+    "_"
+  ]
+}
