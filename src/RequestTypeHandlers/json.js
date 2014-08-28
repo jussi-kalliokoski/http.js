@@ -4,5 +4,5 @@ Http.Request.addRequestTypeHandler("json", {
         "use strict";
 
         return JSON.stringify(body);
-    }
+    },
 });

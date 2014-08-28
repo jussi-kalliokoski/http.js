@@ -24,18 +24,18 @@ describe("Http.Request", function () {
             expect(result.statusCode).to.equal(200);
             expect(result.headers["Content-Type"]).to.equal("application/json");
             expect(result.body).to.eql({
-                foo: "bar"
+                foo: "bar",
             });
         });
     };
 
     it("should send the request to the given URL", function () {
         server.respondWith("GET", "http://example.com/foo?bar=baz", [200, {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         }, defaultResponse]);
 
         var request = new Request({
-            url: "http://example.com/foo?bar=baz"
+            url: "http://example.com/foo?bar=baz",
         });
 
         return assertOk(request);
@@ -45,14 +45,14 @@ describe("Http.Request", function () {
         server.respondWith("POST", "/", function (xhr) {
             expect(xhr.requestBody).to.equal("foo=bar");
             xhr.respond(200, {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }, defaultResponse);
         });
 
         var request = new Request({
             url: "/",
             method: "POST",
-            body: { foo: "bar" }
+            body: { foo: "bar" },
         });
 
         return assertOk(request);
@@ -62,14 +62,14 @@ describe("Http.Request", function () {
         server.respondWith("POST", "/", function (xhr) {
             expect(xhr.requestBody).to.equal(null);
             xhr.respond(200, {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }, defaultResponse);
         });
 
         var request = new Request({
             url: "/",
             method: "POST",
-            body: ""
+            body: "",
         });
 
         return assertOk(request);
@@ -79,7 +79,7 @@ describe("Http.Request", function () {
         server.respondWith("POST", "/", function (xhr) {
             expect(xhr.requestHeaders["X-Other-Custom"]).to.equal("bar");
             xhr.respond(200, {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }, defaultResponse);
         });
 
@@ -87,8 +87,8 @@ describe("Http.Request", function () {
             url: "/",
             method: "POST",
             headers: {
-                "X-Other-Custom": "bar"
-            }
+                "X-Other-Custom": "bar",
+            },
         });
 
         return assertOk(request);
@@ -99,14 +99,14 @@ describe("Http.Request", function () {
             expect(xhr.username).to.equal("foo");
             expect(xhr.password).to.equal("bar");
             xhr.respond(200, {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }, defaultResponse);
         });
 
         var request = new Request({
             url: "/",
             username: "foo",
-            password: "bar"
+            password: "bar",
         });
 
         return assertOk(request);
@@ -116,7 +116,7 @@ describe("Http.Request", function () {
         server.respondWith("POST", "/", function (xhr) {
             expect(xhr.requestHeaders["Content-Type"]).to.equal("foo;charset=utf-8");
             xhr.respond(200, {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }, defaultResponse);
         });
 
@@ -124,8 +124,8 @@ describe("Http.Request", function () {
             url: "/",
             method: "POST",
             headers: {
-                "Content-Type": "foo;charset=UTF-8"
-            }
+                "Content-Type": "foo;charset=UTF-8",
+            },
         });
 
         return assertOk(request);
@@ -135,7 +135,7 @@ describe("Http.Request", function () {
         it("should return an error for requests that don't return 2xx status", function () {
             server.respondWith(function (xhr) {
                 xhr.respond(statusCode, {
-                    "X-Custom": "foo"
+                    "X-Custom": "foo",
                 }, "{\"message\":\"meow\"}");
             });
 
@@ -143,18 +143,18 @@ describe("Http.Request", function () {
                 url: "/",
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
-                }
+                    "Content-Type": "application/json",
+                },
             });
 
             return request.send().then(function () {
                 throw new Error("request should have failed");
-            })["catch"](function (error) {
+            }).catch(function (error) {
                 expect(error).to.be.an(Http.Errors.HttpError);
                 expect(error.statusCode).to.equal(statusCode);
                 expect(error.headers["X-Custom"]).to.equal("foo");
                 expect(error.body).to.eql({
-                    message: "meow"
+                    message: "meow",
                 });
                 expect(error.message).to.equal("POST \"/\" failed with status " + statusCode);
             });
@@ -168,12 +168,12 @@ describe("Http.Request", function () {
 
         var request = new Request({
             url: "/",
-            method: "POST"
+            method: "POST",
         });
 
         return request.send().then(function () {
             throw new Error("request should have failed");
-        })["catch"](function (error) {
+        }).catch(function (error) {
             expect(error).to.be.an(Http.Errors.CancellationError);
             expect(error.message).to.equal("POST \"/\" was cancelled");
         });
@@ -188,13 +188,13 @@ describe("Http.Request", function () {
             url: "/",
             method: "POST",
             headers: {
-                "Content-Type": "foo;charset=UTF-8"
-            }
+                "Content-Type": "foo;charset=UTF-8",
+            },
         });
 
         return request.send().then(function () {
             throw new Error("request should have failed");
-        })["catch"](function (error) {
+        }).catch(function (error) {
             expect(error).to.be.an(Http.Errors.NetworkError);
             expect(error.message).to.equal("POST \"/\" failed due to a network error (missing CORS headers?)");
         });
@@ -209,13 +209,13 @@ describe("Http.Request", function () {
             url: "/",
             method: "POST",
             headers: {
-                "Content-Type": "foo;charset=UTF-8"
-            }
+                "Content-Type": "foo;charset=UTF-8",
+            },
         });
 
         return request.send().then(function () {
             throw new Error("request should have failed");
-        })["catch"](function (error) {
+        }).catch(function (error) {
             expect(error).to.be.an(Http.Errors.NetworkError);
             expect(error.message).to.equal("POST \"/\" failed due to a network error (missing CORS headers?)");
         });
@@ -225,13 +225,13 @@ describe("Http.Request", function () {
         server.respondWith("GET", "http://otherdomain.com/foo", function (xhr) {
             expect(xhr.withCredentials).to.equal(true);
             xhr.respond(200, {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }, defaultResponse);
         });
 
         var request = new Request({
             url: "http://otherdomain.com/foo",
-            crossOrigin: "Use-Credentials"
+            crossOrigin: "Use-Credentials",
         });
 
         return assertOk(request);
@@ -241,12 +241,12 @@ describe("Http.Request", function () {
         server.respondWith("GET", "http://otherdomain.com/foo", function (xhr) {
             expect(xhr.withCredentials).to.equal(false);
             xhr.respond(200, {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }, defaultResponse);
         });
 
         var request = new Request({
-            url: "http://otherdomain.com/foo"
+            url: "http://otherdomain.com/foo",
         });
 
         return assertOk(request);

@@ -3,15 +3,12 @@
 var gulp = require("gulp");
 var jshint = require("gulp-jshint");
 var jscs = require("gulp-jscs");
-var karma = require("gulp-karma");
+var istanbul = require("gulp-istanbul");
 var concat = require("gulp-concat");
-
-var vendorJavascripts = [
-    "./bower_components/json3/lib/json3.js",
-    "./bower_components/lodash/dist/lodash.compat.js",
-    "./bower_components/es6-promise/promise.js",
-    "./bower_components/uri.js/src/URI.js"
-];
+var es3ify = require("gulp-es3ify");
+var wrap = require("gulp-wrap-umd");
+var runSequence = require("run-sequence");
+var spawn = require("child_process").spawn;
 
 var sources = [
     "./src/index.js",
@@ -21,43 +18,86 @@ var sources = [
     "./src/RequestUrlHelpers.js",
     "./src/MethodShorthands.js",
     "./src/RequestTypeHandlers/*.js",
-    "./src/ResponseTypeHandlers/*.js"
+    "./src/ResponseTypeHandlers/*.js",
 ];
 
-gulp.task("jshint", function () {
-    return gulp.src(sources.concat("./test/**/*Spec.js", "gulpfile.js"))
+var configFiles = [
+    "./gulpfile.js",
+    "./config/karma/karma.conf.js",
+    "./test/**/*.js",
+];
+
+var umdSpec = {
+    namespace: "Http",
+    exports: "Http",
+    deps: [{
+        name: "_",
+        cjsName: "lodash",
+        globalName: "_",
+    }, {
+        name: "URI",
+        cjsName: "URIjs",
+        globalName: "URI",
+    }],
+};
+
+function handleError (error) {
+    throw error;
+}
+
+gulp.task("jscs", function jscsTask () {
+    return gulp.src(sources.concat(configFiles), { base: "./" })
+        .pipe(jscs("./.jscs.json"))
+        .on("error", handleError);
+});
+
+gulp.task("jshint", function jshintTask () {
+    return gulp.src(sources.concat(configFiles), { base: "./" })
         .pipe(jshint())
         .pipe(jshint.reporter("default"))
         .pipe(jshint.reporter("fail"))
-        .on("error", function (error) {
-            throw error;
-        });
+        .on("error", handleError);
 });
 
-gulp.task("jscs", function () {
-    return gulp.src(sources.concat("./test/**/*Spec.js", "gulpfile.js"))
-        .pipe(jscs("./.jscs.json"))
-        .on("error", function (error) {
-            throw error;
-        });
-});
-
-gulp.task("karma", function () {
-    return gulp.src(vendorJavascripts.concat(sources, "./test/**/*Spec.js"))
-        .pipe(karma({
-            configFile: "./config/karma/karma.conf.js",
-            action: "run"
-        }))
-        .on("error", function (error) {
-            throw error;
-        });
-});
-
-gulp.task("build", function () {
-    return gulp.src(sources)
+gulp.task("build", function buildTask () {
+    return gulp.src(sources, { base: "./" })
+        .pipe(es3ify())
         .pipe(concat("http.js"))
+        .pipe(wrap(umdSpec))
         .pipe(gulp.dest("./dist/"));
 });
 
+gulp.task("build:specs", function buildSpecsTask () {
+    gulp.src("./test/**/*Spec.js", { base: "./" })
+        .pipe(es3ify())
+        .pipe(gulp.dest("./.tmp/"));
+});
+
+gulp.task("build:tests", ["build:specs"], function buildTestsTask () {
+    return gulp.src(sources, { base: "./" })
+        .pipe(istanbul())
+        .pipe(es3ify())
+        .pipe(concat("http.js"))
+        .pipe(wrap(umdSpec))
+        .pipe(gulp.dest("./.tmp/"));
+});
+
+gulp.task("karma", function karmaTask (callback) {
+    var child = spawn("./node_modules/.bin/karma", ["start", "./config/karma/karma.conf.js", "--single-run"], {
+        stdio: "inherit",
+    });
+
+    child.on("close", function (exitCode) {
+        if ( exitCode !== 0 ) {
+            handleError(new Error("Tests failed"));
+            return;
+        }
+
+        callback();
+    });
+});
+
 gulp.task("lint", ["jshint", "jscs"]);
-gulp.task("test", ["lint", "karma"]);
+gulp.task("test", function (callback) {
+    runSequence("lint", "build:tests", "karma", callback);
+});

@@ -5,7 +5,7 @@ Http.Request = function (Delegate) {
         method: "GET",
         crossOrigin: "anonymous",
         responseType: "json",
-        contentType: "form-urlencoded"
+        contentType: "form-urlencoded",
     };
 
     var responseTypeHandlers = {};
@@ -71,7 +71,7 @@ Http.Request = function (Delegate) {
         var response = {
             statusCode: xhr.status,
             headers: getResponseHeaders(xhr, options),
-            body: processResponseBody(xhr, options)
+            body: processResponseBody(xhr, options),
         };
 
         postProcessResponseBody(xhr, options, response);
@@ -124,7 +124,7 @@ Http.Request = function (Delegate) {
             body: options.body,
             username: options.username,
             password: options.password,
-            prepare: createXhrPreparate(options)
+            prepare: createXhrPreparate(options),
         });
 
         overrideSend(delegate, options);

@@ -15,7 +15,7 @@ describe("Http method shorthands", function () {
     using("method shorthands", ["get", "post", "put", "delete", "patch"], function (shorthand) {
         it("should make an HTTP request", function () {
             server.respondWith(shorthand.toUpperCase(), "/foo", [200, {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }, "{\"ok\":true}"]);
 
             return Http[shorthand]({ url: "/foo" }).then(function (result) {

@@ -6,5 +6,5 @@ Http.Request.addResponseTypeHandler("html", {
         var fragment = document.createDocumentFragment();
         fragment.innerHTML = xhr.responseText;
         return fragment;
-    }
+    },
 });

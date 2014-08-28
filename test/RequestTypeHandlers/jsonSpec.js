@@ -16,7 +16,7 @@ describe("Http Request with `contentType` set to `json`", function () {
         server.respondWith("POST", "/foo", function (xhr) {
             expect(xhr.requestBody).to.equal("{\"foo\":[1,2],\"bar\":\"3 4\"}");
             xhr.respond(200, {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }, "{\"ok\":true}");
         });
 
@@ -26,8 +26,8 @@ describe("Http Request with `contentType` set to `json`", function () {
             contentType: "json",
             body: {
                 foo: [1, 2],
-                bar: "3 4"
-            }
+                bar: "3 4",
+            },
         });
 
         return request.send().then(function (result) {
