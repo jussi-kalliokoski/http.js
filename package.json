@@ -26,7 +26,7 @@
   },
   "scripts": {
     "coveralls": "lcov-result-merger \"coverage/*/lcov.info\" | COVERALLS_SERVICE_NAME=\"travis-ci\" coveralls",
-    "prepublish": "bower install && gulp build",
+    "prepublish": "cd node_modules/karma-browserstack-launcher && npm install browserstacktunnel-wrapper@1.1.3 && cd ../.. && bower install && gulp build",
     "test": "gulp test"
   },
   "repository": {
