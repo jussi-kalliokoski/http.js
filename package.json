@@ -26,8 +26,7 @@
   },
   "scripts": {
     "coveralls": "lcov-result-merger \"coverage/*/lcov.info\" | COVERALLS_SERVICE_NAME=\"travis-ci\" coveralls",
-    "postinstall": "bower install",
-    "prepublish": "gulp build",
+    "prepublish": "bower install && gulp build",
     "test": "gulp test"
   },
   "repository": {
