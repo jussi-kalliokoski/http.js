@@ -4,5 +4,5 @@ Http.Request.addResponseTypeHandler("json", {
         "use strict";
 
         return JSON.parse(xhr.responseText);
-    }
+    },
 });

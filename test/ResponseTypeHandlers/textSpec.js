@@ -16,13 +16,13 @@ describe("Http.Request (text response type handler)", function () {
         server.respondWith("GET", "/foo", function (xhr) {
             expect(xhr.requestHeaders.Accept).to.equal("text/plain");
             xhr.respond(200, {
-                "Content-Type": "text/plain"
+                "Content-Type": "text/plain",
             }, "Ok");
         });
 
         return Http.get({
             url: "/foo",
-            responseType: "text"
+            responseType: "text",
         }).then(function (result) {
             expect(result.statusCode).to.equal(200);
             expect(result.headers["Content-Type"]).to.equal("text/plain");

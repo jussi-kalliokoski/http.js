@@ -16,7 +16,7 @@ describe("Http Request with `contentType` set to `text`", function () {
         server.respondWith("POST", "/foo", function (xhr) {
             expect(xhr.requestBody).to.equal("foo");
             xhr.respond(200, {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }, "{\"ok\":true}");
         });
 
@@ -24,7 +24,7 @@ describe("Http Request with `contentType` set to `text`", function () {
             method: "POST",
             url: "/foo",
             contentType: "text",
-            body: "foo"
+            body: "foo",
         });
 
         return request.send().then(function (result) {

@@ -15,7 +15,7 @@ describe("Http Request URL Helpers", function () {
     var createSimpleTest = function (expected, parameters) {
         return function () {
             server.respondWith(parameters.method, expected, [200, {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }, "{\"ok\":true}"]);
 
             var request = new Http.Request(parameters);
@@ -34,8 +34,8 @@ describe("Http Request URL Helpers", function () {
             url: "/foo",
             query: {
                 bar: 1,
-                cat: [5, 6]
-            }
+                cat: [5, 6],
+            },
         }
     ));
 });

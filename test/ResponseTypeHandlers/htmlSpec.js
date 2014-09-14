@@ -18,13 +18,13 @@ describe("Http.Request (html response type handler)", function () {
         server.respondWith("GET", "http://otherdomain.com/foo", function (xhr) {
             expect(xhr.requestHeaders.Accept).to.equal("text/html");
             xhr.respond(200, {
-                "Content-Type": "text/html"
+                "Content-Type": "text/html",
             }, defaultResponse);
         });
 
         return Http.get({
             url: "http://otherdomain.com/foo",
-            responseType: "html"
+            responseType: "html",
         }).then(function (result) {
             expect(result.statusCode).to.equal(200);
             expect(result.headers["Content-Type"]).to.equal("text/html");

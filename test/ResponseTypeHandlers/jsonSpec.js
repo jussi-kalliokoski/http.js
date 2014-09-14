@@ -18,18 +18,18 @@ describe("Http.Request (json response type handler)", function () {
         server.respondWith("GET", "http://otherdomain.com/foo", function (xhr) {
             expect(xhr.requestHeaders.Accept).to.equal("application/json");
             xhr.respond(200, {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }, defaultResponse);
         });
 
         return Http.get({
             url: "http://otherdomain.com/foo",
-            responseType: "json"
+            responseType: "json",
         }).then(function (result) {
             expect(result.statusCode).to.equal(200);
             expect(result.headers["Content-Type"]).to.equal("application/json");
             expect(result.body).to.eql({
-                foo: "bar"
+                foo: "bar",
             });
         });
     });
@@ -38,16 +38,16 @@ describe("Http.Request (json response type handler)", function () {
         server.respondWith("GET", "http://otherdomain.com/foo", function (xhr) {
             expect(xhr.requestHeaders.Accept).to.equal("application/json");
             xhr.respond(200, {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }, "{foo:1}");
         });
 
         return Http.get({
             url: "http://otherdomain.com/foo",
-            responseType: "json"
+            responseType: "json",
         }).then(function () {
             throw new Error("request should have failed");
-        })["catch"](function (error) {
+        }).catch(function (error) {
             expect(error).to.be.an(Http.Errors.ResponseError);
             expect(error.statusCode).to.equal(200);
             expect(error.headers["Content-Type"]).to.equal("application/json");

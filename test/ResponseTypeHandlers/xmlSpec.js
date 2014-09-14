@@ -18,13 +18,13 @@ describe("Http.Request (xml response type handler)", function () {
         server.respondWith("GET", "/foo", function (xhr) {
             expect(xhr.requestHeaders.Accept).to.equal("application/xml, text/xml");
             xhr.respond(200, {
-                "Content-Type": "application/xml"
+                "Content-Type": "application/xml",
             }, defaultResponse);
         });
 
         return Http.get({
             url: "/foo",
-            responseType: "xml"
+            responseType: "xml",
         }).then(function (result) {
             expect(result.statusCode).to.equal(200);
             expect(result.headers["Content-Type"]).to.equal("application/xml");
@@ -36,17 +36,17 @@ describe("Http.Request (xml response type handler)", function () {
         server.respondWith("GET", "/foo", function (xhr) {
             expect(xhr.requestHeaders.Accept).to.equal("application/xml, text/xml");
             xhr.respond(200, {
-                "Content-Type": "text/xml"
+                "Content-Type": "text/xml",
             }, "<error");
             xhr.responseXML = null;
         });
 
         return Http.get({
             url: "/foo",
-            responseType: "xml"
+            responseType: "xml",
         }).then(function (result) {
             throw new Error("request should have failed");
-        })["catch"](function (error) {
+        }).catch(function (error) {
             expect(error).to.be.an(Http.Errors.ResponseError);
             expect(error.statusCode).to.equal(200);
             expect(error.headers["Content-Type"]).to.equal("text/xml");

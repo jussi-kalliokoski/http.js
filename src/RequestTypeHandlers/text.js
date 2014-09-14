@@ -1,3 +1,3 @@
 Http.Request.addRequestTypeHandler("text", {
-    mimetype: "text/plain"
+    mimetype: "text/plain",
 });

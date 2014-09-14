@@ -8,5 +8,5 @@ Http.Request.addResponseTypeHandler("xml", {
         }
 
         return xhr.responseXML;
-    }
+    },
 });
